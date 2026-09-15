@@ -190,6 +190,8 @@
       *, *::before, *::after { transition: none !important; }
       .button:hover, .service-card:hover { transform: none; }
     }
+    /* 发送期间阻止重复操作，并保持黑白视觉。 */
+    .button:disabled { opacity: .6; cursor: wait; transform: none; box-shadow: none; }
   </style>
 </head>
 <body>
@@ -307,14 +309,15 @@
           <p>告诉我们你的业务和需求，一起找到合适的解决方案与报价。</p>
           <div class="contact-signature"><strong>舟木科技</strong><span class="mono">TECHNOLOGY FOR BUSINESS.</span></div>
         </div>
-        <form class="contact-form" id="contact-form">
+        <form class="contact-form" id="contact-form" data-endpoint="https://formspree.io/f/xppzvgyp" action="https://formspree.io/f/xppzvgyp" method="post">
           <div class="form-row">
             <div class="form-group"><label for="name">姓名 <span aria-hidden="true">NAME</span></label><input id="name" name="name" type="text" placeholder="怎么称呼您" autocomplete="name" maxlength="50" required></div>
             <div class="form-group"><label for="phone">电话 <span aria-hidden="true">PHONE</span></label><input id="phone" name="phone" type="tel" placeholder="您的联系电话" autocomplete="tel" maxlength="30" required></div>
           </div>
           <div class="form-group"><label for="needs">需求 <span aria-hidden="true">YOUR PROJECT</span></label><textarea id="needs" name="needs" placeholder="简单介绍您的项目或希望解决的问题……" maxlength="2000" required></textarea></div>
           <button class="button" type="submit">提交需求 <span class="arrow" aria-hidden="true">↗</span></button>
-          <p class="form-note">此表单为交互演示，提交内容不会发送或保存。</p>
+          <p class="form-note">提交的信息仅用于沟通您的需求，并由 Formspree 处理和保存。</p>
+          <p class="form-note" id="form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
@@ -346,20 +349,69 @@
     // 跨越手机断点时重置菜单，避免回到手机布局后保持意外展开状态。
     window.matchMedia('(max-width: 700px)').addEventListener('change', closeMenu);
 
-    // 本地演示表单：校验必填与纯空格输入，不保存、上传或打印字段内容。
+    // 真实邮箱留言：只有服务成功接收后才提示提交成功。
+    // 收件邮箱只在 Formspree 后台配置。这里不保存或打印客户填写内容。
     const contactForm = document.querySelector('#contact-form');
     const requiredFields = contactForm.querySelectorAll('[required]');
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    const formStatus = document.querySelector('#form-status');
+    let isSubmitting = false;
+    
     requiredFields.forEach(field => {
       field.addEventListener('input', () => field.setCustomValidity(''));
     });
-    contactForm.addEventListener('submit', event => {
+    
+    contactForm.addEventListener('submit', async event => {
       event.preventDefault();
+      if (isSubmitting) return;
       requiredFields.forEach(field => {
         field.setCustomValidity(field.value.trim() ? '' : '请填写此项');
       });
       if (!contactForm.reportValidity()) return;
-      alert('提交成功，我们会尽快联系您');
-      contactForm.reset();
+    
+      const endpoint = contactForm.dataset.endpoint || '';
+      if (!/^https:\/\/formspree\.io\/f\/[a-zA-Z0-9]+$/.test(endpoint)) {
+        formStatus.textContent = '留言服务尚未开通，请稍后再试。';
+        return;
+      }
+      const payload = {
+        name: document.querySelector('#name').value.trim(),
+        phone: document.querySelector('#phone').value.trim(),
+        needs: document.querySelector('#needs').value.trim(),
+      };
+      const originalButton = submitButton.innerHTML;
+      isSubmitting = true;
+      submitButton.disabled = true;
+      requiredFields.forEach(field => { field.disabled = true; });
+      contactForm.setAttribute('aria-busy', 'true');
+      submitButton.textContent = '正在提交…';
+      formStatus.textContent = '正在发送需求，请稍候。';
+    
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+          formStatus.textContent = response.status === 429
+            ? '提交过于频繁或服务额度已用完，请稍后再试。'
+            : '提交未成功，请稍后重试。已保留您的填写内容。';
+          return;
+        }
+        contactForm.reset();
+        formStatus.textContent = '需求已提交，我们会尽快联系您。';
+        alert('提交成功，我们会尽快联系您');
+      } catch {
+        // 网络中断时无法确定服务是否已接收；不自动重试，以免重复发送。
+        formStatus.textContent = '网络异常，暂时无法确认提交结果。已保留内容，请检查网络后再试。';
+      } finally {
+        isSubmitting = false;
+        submitButton.disabled = false;
+        requiredFields.forEach(field => { field.disabled = false; });
+        contactForm.setAttribute('aria-busy', 'false');
+        submitButton.innerHTML = originalButton;
+      }
     });
   </script>
 </body>
