@@ -463,6 +463,7 @@
         if (!text) { status.textContent = '请先输入问题。'; return; }
         const endpoint = panel.dataset.endpoint;
         if (!endpoint) { status.textContent = '智能对话尚未开通，请点击下方链接留下需求。'; return; }
+        if (location.protocol === 'file:') { status.textContent = '本地文件预览不支持 AI 请求，请打开线上网站后使用客服。'; return; }
         let target;
         try { target = new URL(endpoint); if (target.protocol !== 'https:' || target.username || target.password) throw new Error(); }
         catch { status.textContent = '服务暂不可用，请留下需求。'; return; }
