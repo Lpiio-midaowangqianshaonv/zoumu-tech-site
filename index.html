@@ -224,6 +224,25 @@
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    /* 客服面板：公开端点可配置，模型密钥只由服务端保管。 */
+    .chat-launcher { position: fixed; right: 24px; bottom: 24px; z-index: 210; background: var(--ink); color: var(--gold-bright); border: 1px solid var(--gold); border-radius: 30px; padding: 14px 22px; box-shadow: 0 8px 32px #0003; }
+    .chat-panel { position: fixed; right: 24px; bottom: 92px; z-index: 210; width: min(390px, calc(100vw - 32px)); max-height: calc(100vh - 120px); overflow: auto; background: #171717; color: var(--paper); border: 1px solid var(--gold); border-radius: 18px; box-shadow: 0 20px 60px #0005; }
+    .chat-panel[hidden] { display: none; }
+    .chat-heading { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--dark-line); }
+    .chat-heading h2 { margin: 0; font-size: 18px; color: var(--gold-bright); }
+    .chat-close { border: 0; background: transparent; color: var(--paper); padding: 6px 10px; }
+    .chat-log { max-height: 260px; overflow: auto; padding: 16px 20px; }
+    .chat-message { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0 0 12px; padding: 12px; background: #252525; border-radius: 10px; font-size: 14px; }
+    .chat-message--user { border-left: 2px solid var(--gold); }
+    .chat-topics { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px 14px; }
+    .chat-topics button { background: transparent; color: var(--gold-bright); border: 1px solid var(--dark-line); border-radius: 20px; padding: 5px 10px; font-size: 12px; }
+    .chat-form { padding: 0 20px 16px; }
+    .chat-form textarea { width: 100%; min-height: 72px; background: #252525; color: var(--paper); border: 1px solid var(--dark-line); border-radius: 8px; padding: 10px; resize: vertical; }
+    .chat-form button { background: var(--gold-bright); color: var(--ink); border: 0; border-radius: 6px; padding: 8px 16px; margin-top: 8px; }
+    .chat-form button:disabled { opacity: .6; cursor: wait; }
+    .chat-note, .chat-contact { display: block; padding: 0 20px 14px; font-size: 12px; color: var(--dark-muted); }
+    .chat-contact { color: var(--gold-bright); text-decoration: underline; }
+    @media (max-width: 700px) { .chat-panel { right: 16px; } .chat-launcher { right: 16px; bottom: 16px; } }
   </style>
 </head>
 <body>
@@ -357,6 +376,74 @@
   <footer class="footer">
     <div class="container footer-content"><span class="mono">ZOUMU TECHNOLOGY</span><p>© 202X 舟木科技 保留所有权利</p><a class="back-top" href="#home">回到顶部 ↑</a></div>
   </footer>
+  <button type="button" class="chat-launcher" id="chat-launcher" aria-controls="chat-panel" aria-expanded="false">咨询服务 ↗</button>
+  <section class="chat-panel" id="chat-panel" role="region" aria-labelledby="chat-title" data-endpoint="https://zoumu-ai-service.871953360.workers.dev/" hidden>
+    <div class="chat-heading"><h2 id="chat-title">舟木科技 · 服务咨询</h2><button type="button" class="chat-close" id="chat-close" aria-label="关闭客服">关闭 ×</button></div>
+    <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions"><p class="chat-message">您好，我可以介绍官网建设、AI 客服和自动化工具。具体报价与工期请留言咨询。</p></div>
+    <div class="chat-topics" aria-label="服务介绍"><button type="button" data-topic="website">官网建设</button><button type="button" data-topic="assistant">AI 客服</button><button type="button" data-topic="automation">自动化工具</button></div>
+    <form class="chat-form" id="chat-form"><label for="chat-question">您的问题</label><textarea id="chat-question" maxlength="1000" placeholder="例如：我想为门店制作展示网站" required></textarea><button type="submit" id="chat-send">发送问题</button><p id="chat-status" role="status"></p></form>
+    <p class="chat-note">请勿输入密码、证件或客户联系方式。报价与服务承诺以人工确认为准。</p>
+    <a class="chat-contact" id="chat-contact" href="#contact">留下需求，获取人工回复 ↗</a>
+  </section>
+  <script>
+    // AI 接口位于 Cloudflare Worker；前端不保存密钥、不记录对话。
+    (() => {
+      const panel = document.querySelector('#chat-panel');
+      const launcher = document.querySelector('#chat-launcher');
+      const question = document.querySelector('#chat-question');
+      const form = document.querySelector('#chat-form');
+      const send = document.querySelector('#chat-send');
+      const status = document.querySelector('#chat-status');
+      const log = document.querySelector('#chat-log');
+      let pending = false;
+      const history = [];
+      function closeChat() { panel.hidden = true; launcher.setAttribute('aria-expanded', 'false'); launcher.focus(); }
+      launcher.addEventListener('click', () => { panel.hidden = !panel.hidden; launcher.setAttribute('aria-expanded', String(!panel.hidden)); if (!panel.hidden) question.focus(); });
+      document.querySelector('#chat-close').addEventListener('click', closeChat);
+      panel.addEventListener('keydown', event => { if (event.key === 'Escape') closeChat(); });
+      document.querySelector('#chat-contact').addEventListener('click', () => { closeChat(); document.querySelector('#name').focus(); });
+      function append(text, user = false) {
+        const message = document.createElement('p');
+        message.className = 'chat-message' + (user ? ' chat-message--user' : '');
+        message.textContent = text;
+        log.appendChild(message);
+        while (log.children.length > 24) log.firstElementChild.remove();
+        log.scrollTop = log.scrollHeight;
+      }
+      const topics = {
+        website: '服务介绍：我们提供适配电脑与手机的企业官网，展示品牌、服务和客户咨询入口。具体功能、报价与工期需要沟通需求后确认。',
+        assistant: '服务介绍：我们提供智能问答与咨询助手搭建，帮助处理常见问题。适用渠道、知识内容和人工转接方式需要进一步沟通。',
+        automation: '服务介绍：我们协助连接表单、订单与日常业务流程，减少重复录入。请留言说明您目前使用的工具和希望自动完成的工作。'
+      };
+      panel.querySelectorAll('[data-topic]').forEach(button => button.addEventListener('click', () => append(topics[button.dataset.topic])));
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (pending) return;
+        const text = question.value.trim();
+        if (!text) { status.textContent = '请先输入问题。'; return; }
+        const endpoint = panel.dataset.endpoint;
+        if (!endpoint) { status.textContent = '智能对话尚未开通，请点击下方链接留下需求。'; return; }
+        let target;
+        try { target = new URL(endpoint); if (target.protocol !== 'https:' || target.username || target.password) throw new Error(); }
+        catch { status.textContent = '服务暂不可用，请留下需求。'; return; }
+        pending = true; send.disabled = true; question.disabled = true;
+        form.setAttribute('aria-busy', 'true'); status.textContent = '正在回复…';
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 25000);
+        try {
+          const response = await fetch(target.href, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ messages: [...history.slice(-8), { role: 'user', content: text }] }), signal: controller.signal, credentials: 'omit' });
+          if (!response.ok) throw new Error();
+          const data = await response.json();
+          if (typeof data.reply !== 'string' || !data.reply.trim() || data.reply.length > 6000) throw new Error();
+          append(text, true); append(data.reply);
+          history.push({ role: 'user', content: text }, { role: 'assistant', content: data.reply });
+          if (history.length > 8) history.splice(0, history.length - 8);
+          question.value = ''; status.textContent = '';
+        } catch { status.textContent = '暂时无法回复，已保留问题。您可以稍后重试或留下需求。'; }
+        finally { clearTimeout(timer); pending = false; send.disabled = false; question.disabled = false; form.setAttribute('aria-busy', 'false'); }
+      });
+    })();
+  </script>
   <script>
     // 手机菜单：展开、收起、点击锚点后关闭及 Escape 键支持。
     const menuToggle = document.querySelector('.menu-toggle');
