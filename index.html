@@ -289,6 +289,12 @@
                   <stop stop-color="#F3D98B" stop-opacity=".95"/>
                   <stop offset="1" stop-color="#D6B45A" stop-opacity=".22"/>
                 </linearGradient>
+                <radialGradient id="atmosphere-gradient" cx="34%" cy="28%" r="72%">
+                  <stop offset=".72" stop-color="#8DE6FF" stop-opacity="0"/>
+                  <stop offset=".94" stop-color="#62D5FF" stop-opacity=".2"/>
+                  <stop offset="1" stop-color="#B6F1FF" stop-opacity=".85"/>
+                </radialGradient>
+                <filter id="cloud-blur"><feGaussianBlur stdDeviation="2.2"/></filter>
               </defs>
               <g stroke="#FFFFFF" stroke-opacity=".09" fill="none">
                 <path d="M30 218H410M220 52V384"/>
@@ -296,11 +302,17 @@
               </g>
               <ellipse cx="220" cy="218" rx="176" ry="61" transform="rotate(-32 220 218)" fill="none" stroke="#FFFFFF" stroke-opacity=".28"/>
               <circle cx="220" cy="218" r="103" fill="url(#sphere-gradient)"/>
+              <circle cx="220" cy="218" r="104.5" fill="url(#atmosphere-gradient)"/>
               <g clip-path="url(#sphere-clip)" fill="#67B96B" opacity=".72">
                 <path d="M143 170c15-16 28-22 43-19l12 17-8 16-20 5-12 18-21-8z"/>
                 <path d="M235 145l21 8 11 19-9 13 14 16-8 22-21 5-10-19-17-8 7-20z"/>
                 <path d="M275 244l19 7 16 18-12 18-19-4-13-17z"/>
                 <path d="M184 263l18 7 8 18-13 20-16-13-5-18z"/>
+              </g>
+              <g clip-path="url(#sphere-clip)" fill="none" stroke="#FFFFFF" stroke-linecap="round" opacity=".27" filter="url(#cloud-blur)">
+                <path d="M132 187c19-9 30-7 45 1s24 8 38 1 27-6 43 3 28 8 46 1" stroke-width="6"/>
+                <path d="M151 235c13-7 28-5 42 3s27 9 42 2 30-7 48 3" stroke-width="4"/>
+                <path d="M178 286c16-6 28-4 42 3s25 7 38 0" stroke-width="5"/>
               </g>
               <g clip-path="url(#sphere-clip)" stroke="#FFFFFF" stroke-opacity=".19" fill="none" stroke-width=".7">
                 <ellipse cx="220" cy="218" rx="42" ry="103"/>
