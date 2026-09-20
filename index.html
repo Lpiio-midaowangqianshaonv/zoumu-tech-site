@@ -123,6 +123,38 @@
     .case-item .mono { color: var(--muted); }
     .case-item strong { font-size: 13px; font-weight: 500; }
     .case-item .arrow { margin-left: auto; color: var(--muted); font-size: 17px; }
+    .about { padding: 0 0 92px; }
+    .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; border-top: 1px solid var(--line); padding-top: 30px; }
+    .about-grid h2 { margin: 18px 0 0; font-size: clamp(28px, 3.2vw, 42px); font-weight: 500; line-height: 1.35; }
+    .about-copy { color: var(--muted); font-size: 14px; max-width: 600px; }
+    .about-copy p { margin: 0 0 18px; }
+    .promise-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+    .promise { padding: 18px; background: var(--soft); border-top: 2px solid var(--gold); }
+    .promise strong { display: block; margin-bottom: 5px; font-size: 14px; }
+    .promise span { color: var(--muted); font-size: 12px; }
+    .process { padding: 0 0 96px; }
+    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .process-step { padding: 24px 20px; border-right: 1px solid var(--line); }
+    .process-step:first-child { padding-left: 0; }
+    .process-step:last-child { border-right: 0; }
+    .process-step .mono { color: var(--muted); }
+    .process-step strong { display: block; margin: 18px 0 8px; font-size: 17px; font-weight: 500; }
+    .process-step p { margin: 0; color: var(--muted); font-size: 12px; }
+    .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .case-card { padding: 22px; min-height: 160px; background: var(--soft); border: 1px solid var(--line); transition: transform .25s ease, box-shadow .25s ease; }
+    .case-card:hover { transform: translateY(-5px); box-shadow: 0 14px 26px #00000014; }
+    .case-card h4 { margin: 22px 0 8px; font-size: 18px; font-weight: 500; }
+    .case-card p { margin: 0; color: var(--muted); font-size: 12px; }
+    .case-placeholder { margin-top: 12px; color: var(--gold); font-size: 10px; letter-spacing: 1px; }
+    .faq { padding: 0 0 96px; }
+    .faq-list { border-top: 1px solid var(--line); }
+    .faq-item { border-bottom: 1px solid var(--line); }
+    .faq-item summary { cursor: pointer; list-style: none; padding: 20px 0; font-size: 15px; font-weight: 500; display: flex; justify-content: space-between; gap: 20px; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '+'; color: var(--gold); font-size: 20px; font-weight: 300; }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item p { max-width: 720px; margin: -4px 0 20px; color: var(--muted); font-size: 13px; }
+    .service-hours { margin-top: 18px; color: var(--dark-muted); font-size: 12px; }
 
     /* 联系区域：黑底、白字、线性表单 */
     .contact { padding: 84px 0; background: var(--ink); color: white; }
@@ -190,12 +222,18 @@
       .services { padding: 64px 0; }
       .section-heading { display: block; margin-bottom: 28px; }
       .section-heading > p { margin-top: 18px; }
-      .service-grid, .case-list, .contact-grid, .form-row { grid-template-columns: 1fr; }
+      .service-grid, .case-list, .contact-grid, .form-row, .about-grid, .process-grid, .case-grid, .promise-grid { grid-template-columns: 1fr; }
       .service-grid { gap: 15px; }
       .service-card { padding: 26px; }
       .card-top { margin-bottom: 28px; }
       .cases { margin-top: 42px; }
       .cases-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .about { padding-bottom: 64px; }
+      .about-grid { gap: 25px; }
+      .process { padding-bottom: 64px; }
+      .process-step, .process-step:first-child { border-right: 0; border-bottom: 1px solid var(--line); padding: 18px 0; }
+      .process-step:last-child { border-bottom: 0; }
+      .faq { padding-bottom: 64px; }
       .case-item, .case-item:first-child { border-left: 0; border-bottom: 1px solid var(--line); padding: 16px 0; }
       .contact { padding: 56px 0; }
       .contact-grid { gap: 38px; }
@@ -271,6 +309,7 @@
       <button class="menu-toggle" type="button" aria-controls="nav-links" aria-expanded="false">菜单 ＋</button>
       <div class="nav-links" id="nav-links">
         <a href="#home">首页</a>
+        <a href="#about">关于我们</a>
         <a href="#services">服务</a>
         <a href="#cases">案例</a>
         <a class="nav-contact" href="#contact">联系我们 <span class="arrow" aria-hidden="true">↗</span></a>
@@ -341,6 +380,31 @@
         </div>
       </div>
     </section>
+    <section class="about" id="about" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div><div class="eyebrow">ABOUT / 我们是谁</div><h2 id="about-title">让技术真正<br>服务于生意。</h2></div>
+        <div class="about-copy">
+          <p>舟木科技面向小微商家提供清晰、实用的数字化服务，从企业官网到 AI 客服，再到业务自动化，帮助你把线上展示、客户沟通和日常流程连接起来。</p>
+          <p>我们重视可理解、可维护和能持续使用的方案，先理解业务，再确定合适的技术。</p>
+          <div class="promise-grid" aria-label="合作优势">
+            <div class="promise"><strong>先沟通再报价</strong><span>根据实际需求确认范围</span></div>
+            <div class="promise"><strong>方案清晰可执行</strong><span>交付内容和流程提前说明</span></div>
+            <div class="promise"><strong>上线后可维护</strong><span>保留后续调整和支持空间</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="process" aria-labelledby="process-title">
+      <div class="container">
+        <div class="section-heading"><div><div class="eyebrow">PROCESS / 服务流程</div><h2 id="process-title">从想法到上线，<br>每一步都说清楚。</h2></div><p>用四个阶段推进项目，减少反复沟通，让你知道现在进行到哪一步。</p></div>
+        <div class="process-grid">
+          <div class="process-step"><span class="mono">01 / DISCOVER</span><strong>需求沟通</strong><p>了解业务、客户、目标和现有工具，整理真正需要解决的问题。</p></div>
+          <div class="process-step"><span class="mono">02 / PLAN</span><strong>方案确认</strong><p>确认页面结构、功能范围、交付方式和报价，再开始制作。</p></div>
+          <div class="process-step"><span class="mono">03 / BUILD</span><strong>设计开发</strong><p>完成视觉设计、页面开发、表单和 AI 客服等功能接入。</p></div>
+          <div class="process-step"><span class="mono">04 / LAUNCH</span><strong>上线维护</strong><p>完成测试和发布，保留问题反馈、内容更新和后续维护入口。</p></div>
+        </div>
+      </div>
+    </section>
     <section class="services" id="services" aria-labelledby="services-title">
       <div class="container">
         <div class="section-heading">
@@ -366,11 +430,22 @@
         </div>
         <div class="cases" id="cases">
           <div class="cases-heading"><h3>技术可以用在这些地方</h3><span class="mono">USE CASES / 应用场景示例</span></div>
-          <div class="case-list">
-            <div class="case-item"><span class="mono">01</span><strong>门店品牌展示</strong><span class="arrow" aria-hidden="true">↗</span></div>
-            <div class="case-item"><span class="mono">02</span><strong>商家常见问题解答</strong><span class="arrow" aria-hidden="true">↗</span></div>
-            <div class="case-item"><span class="mono">03</span><strong>客户需求自动整理</strong><span class="arrow" aria-hidden="true">↗</span></div>
+          <div class="case-grid">
+            <article class="case-card"><span class="mono">SCENARIO / 01</span><h4>门店品牌展示</h4><p>用清晰的官网结构展示服务、地址、联系方式和活动信息。</p><div class="case-placeholder">示例场景 · 可按你的行业替换</div></article>
+            <article class="case-card"><span class="mono">SCENARIO / 02</span><h4>商家常见问题解答</h4><p>把重复咨询整理成 AI 客服知识，让访客先得到及时回应。</p><div class="case-placeholder">示例场景 · 可按你的业务配置</div></article>
+            <article class="case-card"><span class="mono">SCENARIO / 03</span><h4>客户需求自动整理</h4><p>连接表单与日常流程，减少重复录入，方便后续跟进。</p><div class="case-placeholder">示例场景 · 等待真实案例补充</div></article>
           </div>
+        </div>
+      </div>
+    </section>
+    <section class="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-heading"><div><div class="eyebrow">FAQ / 常见问题</div><h2 id="faq-title">先回答你<br>最关心的事。</h2></div></div>
+        <div class="faq-list">
+          <details class="faq-item"><summary>没有明确需求，也可以先咨询吗？</summary><p>可以。先说明你的行业、目标和目前遇到的问题，我们会协助梳理适合的起点。</p></details>
+          <details class="faq-item"><summary>网站上线后可以继续修改吗？</summary><p>可以。页面内容、服务说明和功能都可以按后续业务变化继续调整，具体范围在沟通时确认。</p></details>
+          <details class="faq-item"><summary>AI 客服会自动承诺价格或工期吗？</summary><p>不会。AI 客服只做服务介绍和初步答疑，报价、工期和服务承诺以人工确认结果为准。</p></details>
+          <details class="faq-item"><summary>多久可以得到人工回复？</summary><p>工作日 09:00–18:00 会优先处理留言，非工作时间收到的需求将在下一个工作时段回复。</p></details>
         </div>
       </div>
     </section>
@@ -381,6 +456,7 @@
           <h2 id="contact-title">下一步，<br>聊聊你的想法。</h2>
           <p>告诉我们你的业务和需求，一起找到合适的解决方案与报价。</p>
           <div class="contact-signature"><strong>舟木科技</strong><span class="mono">TECHNOLOGY FOR BUSINESS.</span></div>
+          <p class="service-hours">人工服务时间：工作日 09:00–18:00<br>非工作时间可先提交需求，我们会在工作时段跟进。</p>
           <a class="appointment-button" href="#contact-form">预约咨询 <span class="arrow" aria-hidden="true">↗</span></a>
           <div class="contact-tools" aria-label="快速联系">
             <button class="contact-tool" type="button" data-contact-action="phone">一键拨打电话</button>
