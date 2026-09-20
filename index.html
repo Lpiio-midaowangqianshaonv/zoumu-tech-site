@@ -162,6 +162,7 @@
     .legal-card p { margin: 0; color: var(--muted); font-size: 12px; }
     .consent { display: flex; align-items: flex-start; gap: 9px; margin: 10px 0 18px; color: var(--dark-muted); font-size: 11px; line-height: 1.5; }
     .consent input { width: 15px; height: 15px; margin-top: 2px; accent-color: var(--gold); }
+    .appointment-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 8px; }
 
     /* 联系区域：黑底、白字、线性表单 */
     .contact { padding: 84px 0; background: var(--ink); color: white; }
@@ -178,9 +179,9 @@
     .form-group { margin-bottom: 25px; min-width: 0; }
     .form-group label { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }
     .form-group label span { color: var(--dark-muted); font-size: 10px; letter-spacing: 1px; }
-    .form-group input, .form-group textarea { display: block; width: 100%; padding: 11px 0; border: 0; border-bottom: 1px solid #747474; border-radius: 0; background: transparent; color: white; outline: none; transition: border-color .2s ease; }
+    .form-group input, .form-group textarea, .form-group select { display: block; width: 100%; padding: 11px 0; border: 0; border-bottom: 1px solid #747474; border-radius: 0; background: transparent; color: white; outline: none; transition: border-color .2s ease; }
     .form-group input::placeholder, .form-group textarea::placeholder { color: #A0A0A0; font-size: 12px; opacity: 1; }
-    .form-group input:focus, .form-group textarea:focus { border-color: white; outline: 1px solid #B5B5B5; outline-offset: 5px; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: white; outline: 1px solid #B5B5B5; outline-offset: 5px; }
     .form-group textarea { min-height: 96px; resize: vertical; }
     .contact-form .button { width: 100%; background: white; color: var(--ink); border-color: white; }
     .contact-form .button:hover { background: #E8E8E8; box-shadow: 0 10px 28px #ffffff15; }
@@ -230,6 +231,7 @@
       .section-heading { display: block; margin-bottom: 28px; }
       .section-heading > p { margin-top: 18px; }
       .service-grid, .case-list, .contact-grid, .form-row, .about-grid, .process-grid, .case-grid, .promise-grid, .legal-grid { grid-template-columns: 1fr; }
+      .appointment-fields { grid-template-columns: 1fr; gap: 0; }
       .service-grid { gap: 15px; }
       .service-card { padding: 26px; }
       .card-top { margin-bottom: 28px; }
@@ -478,8 +480,6 @@
           <a class="appointment-button" href="#contact-form">预约咨询 <span class="arrow" aria-hidden="true">↗</span></a>
           <div class="contact-tools" aria-label="快速联系">
             <button class="contact-tool" type="button" data-contact-action="phone">一键拨打电话</button>
-            <button class="contact-tool" type="button" data-contact-action="email">复制邮箱</button>
-            <button class="contact-tool" type="button" data-contact-action="wechat">微信联系</button>
           </div>
           <p class="form-note" id="contact-tools-status" role="status" aria-live="polite">联系方式可在页面配置后启用。</p>
         </div>
@@ -489,6 +489,10 @@
             <div class="form-group"><label for="phone">电话 <span aria-hidden="true">PHONE</span></label><input id="phone" name="phone" type="tel" placeholder="您的联系电话" autocomplete="tel" maxlength="30" required></div>
           </div>
           <div class="form-group"><label for="needs">需求 <span aria-hidden="true">YOUR PROJECT</span></label><textarea id="needs" name="needs" placeholder="简单介绍您的项目或希望解决的问题……" maxlength="2000" required></textarea></div>
+          <div class="appointment-fields">
+            <div class="form-group"><label for="appointment-date">预约日期 <span aria-hidden="true">DATE</span></label><input id="appointment-date" name="appointment-date" type="date" required></div>
+            <div class="form-group"><label for="appointment-time">预约时间 <span aria-hidden="true">TIME</span></label><select id="appointment-time" name="appointment-time" required><option value="">请选择时间段</option><option>09:00–10:00</option><option>10:00–11:00</option><option>14:00–15:00</option><option>15:00–16:00</option><option>16:00–17:00</option></select></div>
+          </div>
           <label class="consent" for="privacy-consent"><input id="privacy-consent" name="privacy-consent" type="checkbox" required><span>我已阅读并同意信息使用说明，了解提交内容仅用于本次沟通。</span></label>
           <button class="button" type="submit">提交需求 <span class="arrow" aria-hidden="true">↗</span></button>
           <p class="form-note">提交的信息仅用于沟通您的需求，并由 Formspree 处理和保存。</p>
@@ -641,6 +645,12 @@
         phone: document.querySelector('#phone').value.trim(),
         needs: document.querySelector('#needs').value.trim(),
       };
+      const appointmentDate = document.querySelector('#appointment-date');
+      const appointmentTime = document.querySelector('#appointment-time');
+      if (appointmentDate && appointmentTime) {
+        payload.appointmentDate = appointmentDate.value;
+        payload.appointmentTime = appointmentTime.value;
+      }
       const originalButton = submitButton.innerHTML;
       isSubmitting = true;
       submitButton.disabled = true;
