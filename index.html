@@ -155,6 +155,13 @@
     .faq-item[open] summary::after { content: '−'; }
     .faq-item p { max-width: 720px; margin: -4px 0 20px; color: var(--muted); font-size: 13px; }
     .service-hours { margin-top: 18px; color: var(--dark-muted); font-size: 12px; }
+    .legal { padding: 0 0 88px; }
+    .legal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .legal-card { padding: 22px; background: var(--soft); border: 1px solid var(--line); }
+    .legal-card h3 { margin: 0 0 10px; font-size: 16px; font-weight: 500; }
+    .legal-card p { margin: 0; color: var(--muted); font-size: 12px; }
+    .consent { display: flex; align-items: flex-start; gap: 9px; margin: 10px 0 18px; color: var(--dark-muted); font-size: 11px; line-height: 1.5; }
+    .consent input { width: 15px; height: 15px; margin-top: 2px; accent-color: var(--gold); }
 
     /* 联系区域：黑底、白字、线性表单 */
     .contact { padding: 84px 0; background: var(--ink); color: white; }
@@ -222,7 +229,7 @@
       .services { padding: 64px 0; }
       .section-heading { display: block; margin-bottom: 28px; }
       .section-heading > p { margin-top: 18px; }
-      .service-grid, .case-list, .contact-grid, .form-row, .about-grid, .process-grid, .case-grid, .promise-grid { grid-template-columns: 1fr; }
+      .service-grid, .case-list, .contact-grid, .form-row, .about-grid, .process-grid, .case-grid, .promise-grid, .legal-grid { grid-template-columns: 1fr; }
       .service-grid { gap: 15px; }
       .service-card { padding: 26px; }
       .card-top { margin-bottom: 28px; }
@@ -234,6 +241,7 @@
       .process-step, .process-step:first-child { border-right: 0; border-bottom: 1px solid var(--line); padding: 18px 0; }
       .process-step:last-child { border-bottom: 0; }
       .faq { padding-bottom: 64px; }
+      .legal { padding-bottom: 64px; }
       .case-item, .case-item:first-child { border-left: 0; border-bottom: 1px solid var(--line); padding: 16px 0; }
       .contact { padding: 56px 0; }
       .contact-grid { gap: 38px; }
@@ -449,6 +457,16 @@
         </div>
       </div>
     </section>
+    <section class="legal" id="privacy" aria-labelledby="privacy-title">
+      <div class="container">
+        <div class="section-heading"><div><div class="eyebrow">TRUST / 信息与合规</div><h2 id="privacy-title">放心咨询，<br>信息用得明白。</h2></div><p>我们只收集完成沟通所需要的信息，不保存网页端的原始 AI 聊天记录。</p></div>
+        <div class="legal-grid">
+          <article class="legal-card"><h3>隐私政策</h3><p>表单中的姓名、电话和需求仅用于联系、理解项目和提供报价。信息通过 Formspree 发送和保存，网站前端不写入本地存储。</p></article>
+          <article class="legal-card"><h3>用户信息使用说明</h3><p>我们不会要求密码、证件、支付信息或与项目无关的个人资料。AI 对话只在当前页面内存中处理，刷新页面后不会保留。</p></article>
+          <article class="legal-card"><h3>服务免责声明</h3><p>AI 客服仅提供服务方向和初步答疑，不构成报价、合同、法律或经营建议。价格、工期、效果和交付范围以人工确认文件为准。</p></article>
+        </div>
+      </div>
+    </section>
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="container contact-grid">
         <div class="contact-copy">
@@ -471,6 +489,7 @@
             <div class="form-group"><label for="phone">电话 <span aria-hidden="true">PHONE</span></label><input id="phone" name="phone" type="tel" placeholder="您的联系电话" autocomplete="tel" maxlength="30" required></div>
           </div>
           <div class="form-group"><label for="needs">需求 <span aria-hidden="true">YOUR PROJECT</span></label><textarea id="needs" name="needs" placeholder="简单介绍您的项目或希望解决的问题……" maxlength="2000" required></textarea></div>
+          <label class="consent" for="privacy-consent"><input id="privacy-consent" name="privacy-consent" type="checkbox" required><span>我已阅读并同意信息使用说明，了解提交内容仅用于本次沟通。</span></label>
           <button class="button" type="submit">提交需求 <span class="arrow" aria-hidden="true">↗</span></button>
           <p class="form-note">提交的信息仅用于沟通您的需求，并由 Formspree 处理和保存。</p>
           <p class="form-note" id="form-status" role="status" aria-live="polite"></p>
@@ -479,12 +498,12 @@
     </section>
   </main>
   <footer class="footer">
-    <div class="container footer-content"><span class="mono">ZOUMU TECHNOLOGY</span><p>© 202X 舟木科技 保留所有权利</p><a class="back-top" href="#home">回到顶部 ↑</a></div>
+    <div class="container footer-content"><span class="mono">ZOUMU TECHNOLOGY</span><p>© 202X 舟木科技 保留所有权利 · <a href="#privacy">隐私与免责声明</a></p><a class="back-top" href="#home">回到顶部 ↑</a></div>
   </footer>
   <button type="button" class="chat-launcher" id="chat-launcher" aria-controls="chat-panel" aria-expanded="false">咨询服务 ↗</button>
   <section class="chat-panel" id="chat-panel" role="region" aria-labelledby="chat-title" data-endpoint="https://zoumu-ai-service.871953360.workers.dev/" hidden>
     <div class="chat-heading"><h2 id="chat-title">舟木科技 · 服务咨询</h2><button type="button" class="chat-close" id="chat-close" aria-label="关闭客服">关闭 ×</button></div>
-    <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions"><p class="chat-message">您好，我可以介绍官网建设、AI 客服和自动化工具。具体报价与工期请留言咨询。</p></div>
+    <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions"><p class="chat-message">您好，我可以介绍官网建设、AI 客服和自动化工具。AI 仅做初步答疑，报价、工期和合同请以人工确认结果为准。</p></div>
     <div class="chat-topics" aria-label="服务介绍"><button type="button" data-topic="website">官网建设</button><button type="button" data-topic="assistant">AI 客服</button><button type="button" data-topic="automation">自动化工具</button></div>
     <form class="chat-form" id="chat-form"><label for="chat-question">您的问题</label><textarea id="chat-question" maxlength="1000" placeholder="例如：我想为门店制作展示网站" required></textarea><button type="submit" id="chat-send">发送问题</button><p id="chat-status" role="status"></p></form>
     <p class="chat-note">请勿输入密码、证件或客户联系方式。报价与服务承诺以人工确认为准。</p>
