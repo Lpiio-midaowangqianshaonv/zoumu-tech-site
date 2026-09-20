@@ -86,9 +86,7 @@
     .visual-bottom { bottom: 21px; padding-top: 14px; border-top: 1px solid #ffffff24; }
     .visual-top .cross { font-size: 23px; color: white; font-weight: 200; }
     .orb-art { width: 100%; height: 100%; position: absolute; inset: 0; }
-    .globe-core { transform-box: fill-box; transform-origin: center; }
     .hero-visual:hover::before { background: radial-gradient(ellipse at 45% 50%, #f3d98b18, transparent 66%); }
-    @keyframes globeSpin { 0% { transform: perspective(500px) rotateY(-8deg) rotateZ(0deg); } 50% { transform: perspective(500px) rotateY(8deg) rotateZ(1deg); } 100% { transform: perspective(500px) rotateY(-8deg) rotateZ(0deg); } }
     .hero-meta { margin-top: 68px; display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .meta-item { padding: 22px 24px; display: flex; align-items: center; gap: 17px; border-right: 1px solid var(--line); }
     .meta-item:first-child { padding-left: 0; }
@@ -316,7 +314,7 @@
               </g>
               <ellipse cx="220" cy="218" rx="176" ry="61" transform="rotate(-32 220 218)" fill="none" stroke="#FFFFFF" stroke-opacity=".28"/>
               <g class="globe-core">
-              <animateTransform attributeName="transform" type="rotate" from="0 220 218" to="360 220 218" dur="18s" repeatCount="indefinite"/>
+              <animateTransform attributeName="transform" type="rotate" from="0 220 218" to="360 220 218" dur="30s" repeatCount="indefinite"/>
               <circle cx="220" cy="218" r="103" fill="url(#sphere-gradient)"/>
               <circle cx="220" cy="218" r="103" fill="none" stroke="#D6B45A" stroke-opacity=".34" stroke-width="1.4"/>
               <g clip-path="url(#sphere-clip)" stroke="#FFFFFF" stroke-opacity=".19" fill="none" stroke-width=".7">
