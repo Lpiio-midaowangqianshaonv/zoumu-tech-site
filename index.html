@@ -290,82 +290,29 @@
             </div>
             <div class="hero-note">从品牌展示到客户沟通，为经营创造更多可能。</div>
           </div>
-          <div class="hero-visual" role="img" aria-label="蓝绿色地球与金色轨道线组成的抽象科技图形">
+          <div class="hero-visual" role="img" aria-label="黑白金属球体与轨道线组成的抽象科技图形">
             <div class="visual-top mono"><span>TECHNOLOGY, MADE SIMPLE.</span><span class="cross" aria-hidden="true">＋</span></div>
             <svg class="orb-art" viewBox="0 0 440 440" aria-hidden="true">
               <defs>
                 <radialGradient id="sphere-gradient" cx="32%" cy="25%" r="78%">
-                  <stop offset="0" stop-color="#B7F1E5"/>
-                  <stop offset=".26" stop-color="#2CA7A0"/>
-                  <stop offset=".58" stop-color="#146B86"/>
-                  <stop offset=".86" stop-color="#103B64"/>
-                  <stop offset="1" stop-color="#071D38"/>
+                  <stop offset="0" stop-color="#F2F2F2"/>
+                  <stop offset=".26" stop-color="#C0C0C0"/>
+                  <stop offset=".58" stop-color="#5B5B5B"/>
+                  <stop offset=".86" stop-color="#242424"/>
+                  <stop offset="1" stop-color="#161616"/>
                 </radialGradient>
                 <clipPath id="sphere-clip"><circle cx="220" cy="218" r="103"/></clipPath>
                 <linearGradient id="orbit-gradient" x1="0" y1="0" x2="1" y2="1">
-                  <stop stop-color="#F3D98B" stop-opacity=".95"/>
-                  <stop offset="1" stop-color="#D6B45A" stop-opacity=".22"/>
+                  <stop stop-color="#FFFFFF" stop-opacity=".9"/>
+                  <stop offset="1" stop-color="#FFFFFF" stop-opacity=".15"/>
                 </linearGradient>
-                <radialGradient id="atmosphere-gradient" cx="34%" cy="28%" r="72%">
-                  <stop offset=".72" stop-color="#8DE6FF" stop-opacity="0"/>
-                  <stop offset=".94" stop-color="#62D5FF" stop-opacity=".2"/>
-                  <stop offset="1" stop-color="#B6F1FF" stop-opacity=".85"/>
-                </radialGradient>
-                <filter id="cloud-blur"><feGaussianBlur stdDeviation="2.2"/></filter>
-                <filter id="earth-texture" x="-20%" y="-20%" width="140%" height="140%">
-                  <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="4" seed="8" result="noise"/>
-                  <feColorMatrix in="noise" type="saturate" values="0" result="monoNoise"/>
-                  <feComponentTransfer in="monoNoise"><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer>
-                  <feBlend in="SourceGraphic" in2="monoNoise" mode="soft-light"/>
-                </filter>
-                <filter id="earth-shadow" x="-25%" y="-25%" width="150%" height="150%">
-                  <feDropShadow dx="10" dy="14" stdDeviation="10" flood-color="#000" flood-opacity=".65"/>
-                </filter>
               </defs>
               <g stroke="#FFFFFF" stroke-opacity=".09" fill="none">
                 <path d="M30 218H410M220 52V384"/>
                 <circle cx="220" cy="218" r="165" stroke-dasharray="2 7"/>
               </g>
-              <g fill="#FFFFFF">
-                <circle cx="54" cy="82" r="1.2" opacity=".55"/>
-                <circle cx="91" cy="42" r=".7" opacity=".35"/>
-                <circle cx="142" cy="55" r=".9" opacity=".48"/>
-                <circle cx="306" cy="44" r=".8" opacity=".45"/>
-                <circle cx="365" cy="72" r="1.1" opacity=".62"/>
-                <circle cx="397" cy="183" r=".7" opacity=".38"/>
-                <circle cx="385" cy="293" r="1.2" opacity=".5"/>
-                <circle cx="338" cy="368" r=".8" opacity=".4"/>
-                <circle cx="268" cy="389" r="1" opacity=".54"/>
-                <circle cx="153" cy="376" r=".7" opacity=".38"/>
-                <circle cx="73" cy="318" r="1.1" opacity=".58"/>
-                <circle cx="42" cy="226" r=".8" opacity=".42"/>
-                <circle cx="112" cy="349" r=".6" opacity=".32"/>
-                <circle cx="329" cy="114" r=".6" opacity=".3"/>
-              </g>
-              <g fill="#F3D98B">
-                <circle cx="78" cy="137" r=".8" opacity=".72"/>
-                <circle cx="354" cy="221" r=".7" opacity=".58"/>
-                <circle cx="118" cy="291" r=".6" opacity=".64"/>
-                <circle cx="292" cy="82" r=".6" opacity=".5"/>
-              </g>
               <ellipse cx="220" cy="218" rx="176" ry="61" transform="rotate(-32 220 218)" fill="none" stroke="#FFFFFF" stroke-opacity=".28"/>
-              <circle cx="220" cy="218" r="103" fill="url(#sphere-gradient)" filter="url(#earth-shadow)"/>
-              <circle cx="220" cy="218" r="103" fill="url(#sphere-gradient)" filter="url(#earth-texture)" opacity=".68"/>
-              <circle cx="220" cy="218" r="104.5" fill="url(#atmosphere-gradient)"/>
-              <g clip-path="url(#sphere-clip)" fill="#67B96B" opacity=".78">
-                <path d="M139 165c12-12 23-19 37-18l14 8 10 14-6 13-17 4-7 12-18 4-16-12z"/>
-                <path d="M178 189l17 2 9 14-8 14-15 4-10-13z"/>
-                <path d="M232 141l20 7 13 15-4 14 13 11-5 18-17 7-15-14-13-3-8-17 8-14z"/>
-                <path d="M264 203l18 3 16 13-4 17-17 3-11-10z"/>
-                <path d="M282 242l18 5 16 16-10 20-20-3-10-16z"/>
-                <path d="M184 263l18 5 10 17-11 22-16-7-8-17z"/>
-              </g>
-              <ellipse cx="190" cy="164" rx="54" ry="19" fill="#FFFFFF" opacity=".09" transform="rotate(-28 190 164)"/>
-              <g clip-path="url(#sphere-clip)" fill="none" stroke="#FFFFFF" stroke-linecap="round" opacity=".27" filter="url(#cloud-blur)">
-                <path d="M132 187c19-9 30-7 45 1s24 8 38 1 27-6 43 3 28 8 46 1" stroke-width="6"/>
-                <path d="M151 235c13-7 28-5 42 3s27 9 42 2 30-7 48 3" stroke-width="4"/>
-                <path d="M178 286c16-6 28-4 42 3s25 7 38 0" stroke-width="5"/>
-              </g>
+              <circle cx="220" cy="218" r="103" fill="url(#sphere-gradient)"/>
               <g clip-path="url(#sphere-clip)" stroke="#FFFFFF" stroke-opacity=".19" fill="none" stroke-width=".7">
                 <ellipse cx="220" cy="218" rx="42" ry="103"/>
                 <ellipse cx="220" cy="218" rx="77" ry="103"/>
@@ -375,7 +322,7 @@
                 <path d="M220 115V321"/>
               </g>
               <ellipse cx="220" cy="218" rx="178" ry="64" transform="rotate(-32 220 218)" fill="none" stroke="url(#orbit-gradient)" stroke-width="1.2"/>
-              <circle cx="371" cy="134" r="4" fill="#F3D98B"/>
+              <circle cx="371" cy="134" r="4" fill="#EEEEEE"/>
               <path d="M60 334H114M87 307V361" stroke="#FFFFFF" stroke-opacity=".35" stroke-width=".7"/>
               <text x="329" y="343" fill="#AAAAAA" font-family="monospace" font-size="9" letter-spacing="1">AI / 01</text>
             </svg>
